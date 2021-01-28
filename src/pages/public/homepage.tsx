@@ -47,6 +47,48 @@ export default function AppHome() {
             </CardContent>
           </Card>
         </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={6}>
+          <Card style={{ margin: "auto", maxWidth: "85%", maxHeight: "100%", marginTop: 50 }}>
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Price
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={6}>
+          <Card style={{ margin: "auto", maxWidth: "85%", maxHeight: "100%", marginTop: 50 }}>
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Mempool
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+      <Grid container>
+        <Grid item xs={6}>
+          <Card style={{ margin: "auto", maxWidth: "85%", maxHeight: "100%", marginTop: 50 }}>
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Latest blocks
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={6}>
+          <Card style={{ margin: "auto", maxWidth: "85%", maxHeight: "100%", marginTop: 50 }}>
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Latest transactions
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+      <Grid container>
         <Grid container spacing={2} className={appHomeStyles.pageContentGrid}>
           <Grid item xs={6}>
             <Typography variant="h5">Have account? Sign in.</Typography>

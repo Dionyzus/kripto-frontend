@@ -13,14 +13,16 @@ import {
 import Popper, { PopperPlacementType } from "@material-ui/core/Popper";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "../style";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
+import { logOut } from "../../../api/authApi";
 
 export default function AppHeader() {
   const appHeaderStyles = useStyles();
+  const history = useHistory();
 
   //This should be seperated component
   const [open, setOpen] = useState(false);
@@ -32,6 +34,13 @@ export default function AppHeader() {
   const [anchorElNext, setAnchorElNext] = useState<HTMLButtonElement | null>(
     null
   );
+
+  //This could be seperated component "Logout button"
+  async function handleLogout() {
+    localStorage.removeItem("accessToken");
+    logOut();
+    history.push("/");
+  }
 
   //This should be seperated component
   const handleClick = (newPlacement: PopperPlacementType) => (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -92,25 +101,25 @@ export default function AppHeader() {
                             type="button"
                             onClick={handleClose}
                             component={Link}
-                            to="/users"
+                            to="/menu1"
                           >
-                            Users
+                            Menu1
                           </MenuItem>
                           <MenuItem
                             type="button"
                             onClick={handleClose}
                             component={Link}
-                            to="/products/list"
+                            to="/menu2"
                           >
-                            Products
+                            Menu2
                           </MenuItem>
                           <MenuItem
                             type="button"
                             onClick={handleClose}
                             component={Link}
-                            to="/producers"
+                            to="/menu3"
                           >
-                            Producers
+                            Menu3
                           </MenuItem>
                         </MenuList>
                       </ClickAwayListener>
@@ -122,9 +131,9 @@ export default function AppHeader() {
             <Grid item xs={1} style={{ textAlign: "start" }}>
               <IconButton
                 color="inherit"
-                aria-label="chat"
+                aria-label="possibleMenu"
                 component={Link}
-                to="/chat"
+                to="/possibleMenu"
               >
                 <ChatBubbleIcon />
               </IconButton>
@@ -144,7 +153,7 @@ export default function AppHeader() {
                 color="inherit"
                 aria-label="chat"
                 component={Link}
-                to="/welcome"
+                to="/dashboard"
               >
                 <HomeIcon />
               </IconButton>
@@ -179,7 +188,7 @@ export default function AppHeader() {
                           >
                             Profile
                           </MenuItem>
-                          <MenuItem>Log Out</MenuItem>
+                          <MenuItem onClick={handleLogout}>Log Out</MenuItem>
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>

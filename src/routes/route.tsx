@@ -27,7 +27,7 @@ function Route({ Component, Layout, isPrivate, ...rest }: RouteProps) {
    * (SignIn or SignUp) after being authenticated.
    */
   if (!isPrivate && isAuthorized) {
-    return <Redirect to="/welcome" />;
+    return <Redirect to="/dashboard" />;
   }
 
   const route = (
