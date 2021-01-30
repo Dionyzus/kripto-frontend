@@ -15,6 +15,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "../style";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
+import { allTransactions, getRawTransaction } from "../../../api/bitcoinApi";
 
 export default function AppHeader() {
   const appHeaderStyles = useStyles();
@@ -35,6 +36,17 @@ export default function AppHeader() {
 
   function handleClose() {
     setOpen(false);
+  }
+
+  async function handleAllTransactions() {
+    const response = await allTransactions();
+    if (response) {
+      response.data.result.forEach(async (txHash: string) => {
+        console.log((await getRawTransaction(txHash)).data.result);
+      });
+    } else {
+      console.log("Failed to retrieve data!");
+    }
   }
 
   return (
@@ -83,7 +95,7 @@ export default function AppHeader() {
                         <MenuList autoFocusItem={open}>
                           <MenuItem
                             type="button"
-                            onClick={handleClose}
+                            onClick={handleAllTransactions}
                             component={Link}
                             to="/menu1"
                           >
