@@ -15,7 +15,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "../style";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
-import { allTransactions, getRawTransaction } from "../../../api/bitcoinApi";
+import { getAllTransactionsReq, getRawTransactionReq } from "../../../api/bitcoinApi";
 
 export default function AppHeader() {
   const appHeaderStyles = useStyles();
@@ -39,10 +39,10 @@ export default function AppHeader() {
   }
 
   async function handleAllTransactions() {
-    const response = await allTransactions();
+    const response = await getAllTransactionsReq();
     if (response) {
       response.data.result.forEach(async (txHash: string) => {
-        console.log((await getRawTransaction(txHash)).data.result);
+        console.log((await getRawTransactionReq(txHash)).data.result);
       });
     } else {
       console.log("Failed to retrieve data!");
