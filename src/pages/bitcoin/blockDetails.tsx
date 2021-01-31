@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
-import { Container, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import { Container, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, withStyles } from "@material-ui/core";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { tableIcons } from "../../utils/materialTableIcons";
@@ -20,6 +20,14 @@ export default function BlockDetails() {
     const [transactionsData, setTransactionsData] = useState<ITransactionBasicData[]>([]);
     const history = useHistory();
     const { blockHash } = useParams<{ blockHash: string }>();
+
+    const StyledTableRow = withStyles((theme) => ({
+        root: {
+          '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+          },
+        },
+      }))(TableRow);
 
     useEffect(() => {
         async function getBlockData() {
@@ -63,46 +71,46 @@ export default function BlockDetails() {
             <TableContainer component={Paper}>
                 {blockData ? (<Table>
                     <TableBody>
-                    <TableRow ng-repeat-start="element in items">
+                    <StyledTableRow ng-repeat-start="element in items">
                         <TableCell>Confirmations</TableCell>
                         <TableCell>{blockData.confirmations}</TableCell>
-                    </TableRow>
-                    <TableRow>
+                    </StyledTableRow>
+                    <StyledTableRow>
                         <TableCell>Version</TableCell>
                         <TableCell>{blockData.version}</TableCell>
-                    </TableRow>
-                    <TableRow>
+                    </StyledTableRow>
+                    <StyledTableRow>
                         <TableCell>Merkle root</TableCell>
                         <TableCell>{blockData.merkleroot}</TableCell>
-                    </TableRow>
-                    <TableRow>
+                    </StyledTableRow>
+                    <StyledTableRow>
                         <TableCell>Difficulty</TableCell>
                         <TableCell>{blockData.difficulty}</TableCell>
-                    </TableRow>
-                    <TableRow>
+                    </StyledTableRow>
+                    <StyledTableRow>
                         <TableCell>Hash</TableCell>
                         <TableCell>{blockData.hash}</TableCell>
-                    </TableRow>
-                    <TableRow>
+                    </StyledTableRow>
+                    <StyledTableRow>
                         <TableCell>Height</TableCell>
                         <TableCell>{blockData.height}</TableCell>
-                    </TableRow>
-                    <TableRow>
+                    </StyledTableRow>
+                    <StyledTableRow>
                         <TableCell>Number of transactions</TableCell>
                         <TableCell>{blockData.nTx}</TableCell>
-                    </TableRow>
-                    <TableRow>
+                    </StyledTableRow>
+                    <StyledTableRow>
                         <TableCell>Nonce</TableCell>
                         <TableCell>{blockData.nonce}</TableCell>
-                    </TableRow>
-                    <TableRow>
+                    </StyledTableRow>
+                    <StyledTableRow>
                         <TableCell>Time</TableCell>
                         <TableCell>{blockData.time}</TableCell>
-                    </TableRow>
-                    <TableRow>
+                    </StyledTableRow>
+                    <StyledTableRow>
                         <TableCell>Size</TableCell>
                         <TableCell>{blockData.size}</TableCell>
-                    </TableRow>
+                    </StyledTableRow>
                     </TableBody></Table>) : null}
             </TableContainer>
             <Grid item xs>

@@ -2,7 +2,7 @@ export interface IInputs {
     txid: string;
     coinbase: string;
     sequence: string;
-    txinwitness: number;
+    txinwitness: string[];
     scriptSig : {
         asm: string;
         hex: string;
