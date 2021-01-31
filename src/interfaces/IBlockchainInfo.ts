@@ -4,5 +4,6 @@ export interface IBlockchainInfo {
     bestblockhash: string;
     difficulty: number;
     mediantime: number;
+    verificationprogress: number;
     size_on_disk: number;
 }

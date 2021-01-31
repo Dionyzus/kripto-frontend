@@ -48,7 +48,7 @@ export const routes: Array<RouteProps> = [
   },
   {
     exact: true,
-    path: "/bitcoin",
+    path: "/bitcoin/latest-blocks",
     Component: BlockchainInfo,
     isPrivate: false,
     Layout: AppLayout,

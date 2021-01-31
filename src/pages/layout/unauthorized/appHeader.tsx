@@ -15,7 +15,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "../style";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
-import { getAllTransactionsReq, getRawTransactionReq } from "../../../api/bitcoinApi";
 
 export default function AppHeader() {
   const appHeaderStyles = useStyles();
@@ -38,7 +37,11 @@ export default function AppHeader() {
     setOpen(false);
   }
 
-  async function handleAllTransactions() {
+  //This could be used to get all transaction hashes from memory pool,
+  //then to display all data for each one of them.
+  //Maybe better approach is just to display hashes and enable clicking to view details.
+
+  /*async function handleAllMemoryPoolTransactions() {
     const response = await getAllTransactionsReq();
     if (response) {
       response.data.result.forEach(async (txHash: string) => {
@@ -47,7 +50,7 @@ export default function AppHeader() {
     } else {
       console.log("Failed to retrieve data!");
     }
-  }
+  }*/
 
   return (
     <Grid item xs>
@@ -95,7 +98,7 @@ export default function AppHeader() {
                         <MenuList autoFocusItem={open}>
                           <MenuItem
                             type="button"
-                            onClick={handleAllTransactions}
+                            onClick={handleClose}
                             component={Link}
                             to="/menu1"
                           >

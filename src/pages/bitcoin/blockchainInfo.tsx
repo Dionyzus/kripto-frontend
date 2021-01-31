@@ -26,6 +26,7 @@ export default function BlockchainInfo() {
                     bestblockhash: response.data.result.bestblockhash,
                     difficulty: response.data.result.difficulty,
                     mediantime: response.data.result.mediantime,
+                    verificationprogress: response.data.result.verificationprogress,
                     size_on_disk: response.data.result.size_on_disk
                 });
             }
