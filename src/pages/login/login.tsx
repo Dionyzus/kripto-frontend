@@ -74,7 +74,7 @@ export default function Login() {
     if(response && response.data.accessToken){
       localStorage.setItem("accessToken", response.data.accessToken);
     }
-    history.push("/");
+    history.push("/dashboard");
   }
 
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
   Grid,
@@ -13,16 +14,29 @@ import {
 import Popper, { PopperPlacementType } from "@material-ui/core/Popper";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "../style";
-import { Link } from "react-router-dom";
-import SearchIcon from "@material-ui/icons/Search";
+import { Link, useHistory } from "react-router-dom";
+import SearchBar from "material-ui-search-bar";
+import HomeIcon from "@material-ui/icons/Home";
+import { getSearchedDataReq } from "../../../api/bitcoinApi";
+import { logOut } from "../../../api/authApi";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 export default function AppHeader() {
   const appHeaderStyles = useStyles();
+  const history = useHistory();
+  const [searchedValue, setSearchedValue] = useState<string>();
+  const isAuthorized = localStorage.getItem("accessToken");
 
   //This should be seperated component
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState<PopperPlacementType>();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  async function handleLogout() {
+    localStorage.removeItem("accessToken");
+    logOut();
+    history.push("/");
+  }
 
   //This should be seperated component
   const handleClick = (newPlacement: PopperPlacementType) => (
@@ -37,20 +51,18 @@ export default function AppHeader() {
     setOpen(false);
   }
 
-  //This could be used to get all transaction hashes from memory pool,
-  //then to display all data for each one of them.
-  //Maybe better approach is just to display hashes and enable clicking to view details.
-
-  /*async function handleAllMemoryPoolTransactions() {
-    const response = await getAllTransactionsReq();
-    if (response) {
-      response.data.result.forEach(async (txHash: string) => {
-        console.log((await getRawTransactionReq(txHash)).data.result);
-      });
-    } else {
-      console.log("Failed to retrieve data!");
+  async function handleSearchData(term?: string) {
+    if (term != null) {
+      const response = await getSearchedDataReq(term);
+      if (response && response.data) {
+        if (response.data.result.txid != null) {
+          history.push(`/bitcoin/transaction/${term}`);
+        } else {
+          history.push(`/bitcoin/block/${term}`);
+        }
+      }
     }
-  }*/
+  }
 
   return (
     <Grid item xs>
@@ -64,17 +76,27 @@ export default function AppHeader() {
             alignItems="center"
             spacing={1}
           >
-            <Grid item xs={10} style={{ textAlign: "start" }}>
+            {isAuthorized ? 
+            <Grid item xs={2} style={{ textAlign: "start" }}>
               <IconButton
                 color="inherit"
-                aria-label="search"
+                aria-label="home"
                 component={Link}
-                to="/search"
+                to="/dashboard"
               >
-                <SearchIcon />
+                <HomeIcon />
               </IconButton>
             </Grid>
-            <Grid item xs={2} style={{ textAlign: "end" }}>
+            : null}
+            <Grid item xs={8} style={{ textAlign: "start" }}>
+              <SearchBar
+                placeholder={"Search transaction or a block"}
+                value={searchedValue}
+                onChange={(newValue) => setSearchedValue(newValue)}
+                onRequestSearch={() => handleSearchData(searchedValue)}
+              />
+            </Grid>
+            {isAuthorized ? <Grid item xs={2} style={{ textAlign: "end" }}>
               <IconButton
                 onClick={handleClick("bottom-start")}
                 edge="start"
@@ -82,7 +104,7 @@ export default function AppHeader() {
                 color="inherit"
                 aria-label="menu"
               >
-                <MenuIcon />
+                <AccountCircleIcon />
               </IconButton>
               <Popper
                 open={open}
@@ -100,33 +122,18 @@ export default function AppHeader() {
                             type="button"
                             onClick={handleClose}
                             component={Link}
-                            to="/menu1"
+                            to="/profile"
                           >
-                            USD
+                            Profile
                           </MenuItem>
-                          <MenuItem
-                            type="button"
-                            onClick={handleClose}
-                            component={Link}
-                            to="/menu2"
-                          >
-                            EUR
-                          </MenuItem>
-                          <MenuItem
-                            type="button"
-                            onClick={handleClose}
-                            component={Link}
-                            to="/menu3"
-                          >
-                            HRK
-                          </MenuItem>
+                          <MenuItem onClick={handleLogout}>Log Out</MenuItem>
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>
                   </Fade>
                 )}
               </Popper>
-            </Grid>
+            </Grid> : null }
           </Grid>
         </Toolbar>
       </AppBar>

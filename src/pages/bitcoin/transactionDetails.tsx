@@ -1,19 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
-import { Container, Grid, IconButton, List, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ListItem, ListItemText, Typography, Divider, withStyles } from "@material-ui/core";
-import MaterialTable from "material-table";
+import { Container, Grid, List, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ListItem, ListItemText, Typography, Divider, withStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { tableIcons } from "../../utils/materialTableIcons";
-import DetailsIcon from "@material-ui/icons/Details";
 import { useHistory, useParams } from "react-router-dom";
-import { IBlock } from "../../interfaces/IBlock";
-import { getBlockchainInfoReq, getBlockHashReq, getBlockReq, getRawTransactionReq } from "../../api/bitcoinApi";
-import { IBlockchainInfo } from "../../interfaces/IBlockchainInfo";
-import moment from "moment";
+import { getRawTransactionReq } from "../../api/bitcoinApi";
 import { ITransaction } from "../../interfaces/ITransaction";
-import { ITransactionBasicData } from "../../interfaces/ITransactionBasicData";
-import classes from "*.module.css";
 import { IInputs } from "../../interfaces/IInputs";
 import { IOutputs } from "../../interfaces/IOutputs";
 

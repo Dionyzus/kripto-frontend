@@ -26,9 +26,9 @@ function Route({ Component, Layout, isPrivate, ...rest }: RouteProps) {
    * Redirect user to Main page if he tries to access a non private route
    * (SignIn or SignUp) after being authenticated.
    */
-  if (!isPrivate && isAuthorized) {
-    return <Redirect to="/dashboard" />;
-  }
+  /*if (!isPrivate && isAuthorized) {
+    return <Redirect to="/" />;
+  }*/
 
   const route = (
     <RRoute {...rest} render={(props) => <Component {...props} />} />

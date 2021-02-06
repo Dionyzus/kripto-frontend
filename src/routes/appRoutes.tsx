@@ -5,10 +5,10 @@ import PublicLayout from "../pages/layout/unauthorized/publicLayout";
 import SignUp from "../pages/register/register";
 import Login from "../pages/login/login";
 import AppLayout from "../pages/layout/authorized/appLayout";
-import Dashboard from "../pages/dashboard/dashboard";
 import BlockchainInfo from "../pages/bitcoin/blockchainInfo";
 import BlockDetails from "../pages/bitcoin/blockDetails";
 import TransactionDetails from "../pages/bitcoin/transactionDetails";
+import Dashboard from "../pages/dashboard/dashboard";
 
 export const routes: Array<RouteProps> = [
   {
@@ -51,20 +51,20 @@ export const routes: Array<RouteProps> = [
     path: "/bitcoin/latest-blocks",
     Component: BlockchainInfo,
     isPrivate: false,
-    Layout: AppLayout,
+    Layout: PublicLayout,
   },
   {
     exact: true,
     path: "/bitcoin/block/:blockHash",
     Component: BlockDetails,
     isPrivate: false,
-    Layout: AppLayout,
+    Layout: PublicLayout,
   },
   {
     exact: true,
     path: "/bitcoin/transaction/:txid",
     Component: TransactionDetails,
     isPrivate: false,
-    Layout: AppLayout,
+    Layout: PublicLayout,
   },
 ];

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
   Grid,
@@ -11,18 +12,18 @@ import {
   ClickAwayListener,
 } from "@material-ui/core";
 import Popper, { PopperPlacementType } from "@material-ui/core/Popper";
-import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "../style";
 import { Link, useHistory } from "react-router-dom";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import HomeIcon from "@material-ui/icons/Home";
-import SearchIcon from "@material-ui/icons/Search";
 import { logOut } from "../../../api/authApi";
+import SearchBar from "material-ui-search-bar";
+import { getSearchedDataReq } from "../../../api/bitcoinApi";
 
 export default function AppHeader() {
   const appHeaderStyles = useStyles();
   const history = useHistory();
+  const [searchedValue, setSearchedValue] = useState<string>();
 
   //This should be seperated component
   const [open, setOpen] = useState(false);
@@ -63,6 +64,19 @@ export default function AppHeader() {
     setOpenNext(false);
   }
 
+  async function handleSearchData(term?: string) {
+    if (term != null) {
+      const response = await getSearchedDataReq(term);
+      if (response && response.data) {
+        if (response.data.result.txid != null) {
+          history.push(`/bitcoin/transaction/${term}`);
+        } else {
+          history.push(`/bitcoin/block/${term}`);
+        }
+      }
+    }
+  }
+
   return (
     <Grid item xs>
       <AppBar className={appHeaderStyles.appBar} elevation={1}>
@@ -75,88 +89,23 @@ export default function AppHeader() {
             alignItems="center"
             spacing={1}
           >
-            <Grid item xs={2}>
-              <IconButton
-                onClick={handleClick("bottom-start")}
-                edge="start"
-                className={appHeaderStyles.menuButton}
-                color="inherit"
-                aria-label="menu"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Popper
-                open={open}
-                anchorEl={anchorEl}
-                placement={placement}
-                transition
-                disablePortal
-              >
-                {({ TransitionProps }) => (
-                  <Fade {...TransitionProps} timeout={150}>
-                    <Paper elevation={2}>
-                      <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList autoFocusItem={open}>
-                          <MenuItem
-                            type="button"
-                            onClick={handleClose}
-                            component={Link}
-                            to="/menu1"
-                          >
-                            Menu1
-                          </MenuItem>
-                          <MenuItem
-                            type="button"
-                            onClick={handleClose}
-                            component={Link}
-                            to="/menu2"
-                          >
-                            Menu2
-                          </MenuItem>
-                          <MenuItem
-                            type="button"
-                            onClick={handleClose}
-                            component={Link}
-                            to="/menu3"
-                          >
-                            Menu3
-                          </MenuItem>
-                        </MenuList>
-                      </ClickAwayListener>
-                    </Paper>
-                  </Fade>
-                )}
-              </Popper>
-            </Grid>
-            <Grid item xs={1} style={{ textAlign: "start" }}>
+            <Grid item xs={2} style={{ textAlign: "center" }}>
               <IconButton
                 color="inherit"
-                aria-label="possibleMenu"
+                aria-label="home"
                 component={Link}
-                to="/possibleMenu"
-              >
-                <ChatBubbleIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={1} style={{ textAlign: "start" }}>
-              <IconButton
-                color="inherit"
-                aria-label="search"
-                component={Link}
-                to="/search"
-              >
-                <SearchIcon />
-              </IconButton>
-            </Grid>
-            <Grid item xs={6} style={{ textAlign: "center" }}>
-              <IconButton
-                color="inherit"
-                aria-label="chat"
-                component={Link}
-                to="/dashboard"
+                to="/"
               >
                 <HomeIcon />
               </IconButton>
+            </Grid>
+            <Grid item xs={8} style={{ textAlign: "start" }}>
+              <SearchBar
+                placeholder={"Search transaction or a block"}
+                value={searchedValue}
+                onChange={(newValue) => setSearchedValue(newValue)}
+                onRequestSearch={() => handleSearchData(searchedValue)}
+              />
             </Grid>
             <Grid item xs={2} style={{ textAlign: "end" }}>
               <IconButton

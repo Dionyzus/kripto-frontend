@@ -28,6 +28,6 @@ export async function getRawTransactionReq(rawTxHash: string) {
   return baseApi.get(`/bitcoin/raw-transaction/${rawTxHash}`);
 }
 
-export async function getBitcoinPricesReq() {
-  return baseApi.get("/bitcoin/market/prices");
+export async function getSearchedDataReq(term: string) {
+  return baseApi.get(`/bitcoin/search/${term}`);
 }

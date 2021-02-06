@@ -8,12 +8,8 @@ import { tableIcons } from "../../utils/materialTableIcons";
 import DetailsIcon from "@material-ui/icons/Details";
 import { useHistory, useParams } from "react-router-dom";
 import { IBlock } from "../../interfaces/IBlock";
-import { getBlockchainInfoReq, getBlockHashReq, getBlockReq, getRawTransactionReq } from "../../api/bitcoinApi";
-import { IBlockchainInfo } from "../../interfaces/IBlockchainInfo";
-import moment from "moment";
-import { ITransaction } from "../../interfaces/ITransaction";
+import { getBlockReq, getRawTransactionReq } from "../../api/bitcoinApi";
 import { ITransactionBasicData } from "../../interfaces/ITransactionBasicData";
-import classes from "*.module.css";
 
 export default function BlockDetails() {
     const [blockData, setBlockData] = useState<IBlock>();
