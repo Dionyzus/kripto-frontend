@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
-import { Container, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, withStyles } from "@material-ui/core";
+import { Container, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography, withStyles } from "@material-ui/core";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { tableIcons } from "../../utils/materialTableIcons";
@@ -10,6 +10,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { IBlock } from "../../interfaces/IBlock";
 import { getBlockReq, getRawTransactionReq } from "../../api/bitcoinApi";
 import { ITransactionBasicData } from "../../interfaces/ITransactionBasicData";
+import moment from "moment";
 
 export default function BlockDetails() {
     const [blockData, setBlockData] = useState<IBlock>();
@@ -37,8 +38,11 @@ export default function BlockDetails() {
 
     useEffect(() => {
         async function getBlocksData() {
-            let transactionsArray = new Array();
+            let transactionsArray = [];
             if (blockData) {
+                //This probably could of been avoided, slows down page reading.
+                //Used to view additional details, but displaying only txId would
+                //be better idea.
                 for (let i = 0; i < blockData.tx.length; i++) {
                     const transaction = await getRawTransactionReq(blockData.tx[i]);
                     if (transaction && transaction.data) {
@@ -64,6 +68,9 @@ export default function BlockDetails() {
 
     return (
         <Container maxWidth="lg">
+            <Grid item xs={12}>
+                <Typography variant="h5">Block details</Typography>
+            </Grid>
             <TableContainer component={Paper}>
                 {blockData ? (<Table>
                     <TableBody>
@@ -101,7 +108,8 @@ export default function BlockDetails() {
                     </StyledTableRow>
                     <StyledTableRow>
                         <TableCell>Time</TableCell>
-                        <TableCell>{blockData.time}</TableCell>
+                        <TableCell>
+                            {moment.unix(parseInt(blockData.time)).format("DD-MM-YYYY HH:mm")}</TableCell>
                     </StyledTableRow>
                     <StyledTableRow>
                         <TableCell>Size</TableCell>

@@ -37,7 +37,7 @@ export default function ResultComponent(props: IProps) {
                     <TableBody>
                         {props.searchResults.map((row, index) => (
                             <TableRow key={index}>
-                                {index == 0 ? 
+                                {index === 0 ? 
                                 <TableCell component="th" scope="row">
                                     {row.currency}
                                 </TableCell> : <TableCell component = "th" scope="row"></TableCell>}

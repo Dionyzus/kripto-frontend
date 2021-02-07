@@ -36,7 +36,7 @@ export default function BlockchainInfo() {
 
     useEffect(() => {
         async function getBlocksData() {
-            let blocksArray = new Array();
+            let blocksArray = [];
             if (blockchainInfo) {
                 let blockHeight = blockchainInfo.blocks;
                 for (let i = 0; i < 5; i++) {

@@ -36,6 +36,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import { ITransactionBasicData } from "../../interfaces/ITransactionBasicData";
 import { IBlockchainStats } from "../../interfaces/IBlockchainStats";
 import { getBitcoinPricesReq, getBlockchainStatsReq, savePriceReq } from "../../api/marketApi";
+import moment from "moment";
 
 export default function AppHome() {
   const [bitcoinPrices, setBitcoinPrices] = useState<IBitcoinPrice[]>([]);
@@ -60,8 +61,8 @@ export default function AppHome() {
     async function getBitcoinPrices() {
       const response = await getBitcoinPricesReq();
       if (response && response.data) {
-        let allPrices = new Array();
-        let allCurrencies = new Array();
+        let allPrices = [];
+        let allCurrencies = [];
         for (let key in response.data) {
           // eslint-disable-next-line no-prototype-builtins
           if (response.data.hasOwnProperty(key)) {
@@ -124,7 +125,7 @@ export default function AppHome() {
     async function getMempoolTransactions() {
       const response = await getAllTransactionsReq();
       if (response && response.data) {
-        let transactionIds = new Array();
+        let transactionIds = [];
         for (let i = 0; i < response.data.result.length; i++) {
           transactionIds.push({
             txid: response.data.result[i],
@@ -373,7 +374,7 @@ export default function AppHome() {
                           <TableCell>{blockchainInfo.chain}</TableCell>
                           <TableCell>{blockchainInfo.bestblockhash}</TableCell>
                           <TableCell>{blockchainInfo.difficulty}</TableCell>
-                          <TableCell>{blockchainInfo.mediantime}</TableCell>
+                          <TableCell>{moment.unix(blockchainInfo.mediantime).format("HH:mm")}</TableCell>
                           <TableCell>{blockchainInfo.verificationprogress}</TableCell>
                           <TableCell>{blockchainInfo.size_on_disk}</TableCell>
                         </TableRow>

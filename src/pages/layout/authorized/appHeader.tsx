@@ -30,12 +30,6 @@ export default function AppHeader() {
   const [placement, setPlacement] = useState<PopperPlacementType>();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const [openNext, setOpenNext] = useState(false);
-  const [placementNext, setPlacementNext] = useState<PopperPlacementType>();
-  const [anchorElNext, setAnchorElNext] = useState<HTMLButtonElement | null>(
-    null
-  );
-
   //This could be seperated component "Logout button"
   async function handleLogout() {
     localStorage.removeItem("accessToken");
@@ -52,16 +46,6 @@ export default function AppHeader() {
 
   function handleClose() {
     setOpen(false);
-  }
-
-  const handleClickNext = (newPlacement: PopperPlacementType) => (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElNext(event.currentTarget);
-    setOpenNext((prev) => placement !== newPlacement || !prev);
-    setPlacementNext(newPlacement);
-  };
-
-  function handleCloseNext() {
-    setOpenNext(false);
   }
 
   async function handleSearchData(term?: string) {
@@ -109,7 +93,7 @@ export default function AppHeader() {
             </Grid>
             <Grid item xs={2} style={{ textAlign: "end" }}>
               <IconButton
-                onClick={handleClickNext("bottom-start")}
+                onClick={handleClick("bottom-start")}
                 edge="start"
                 className={appHeaderStyles.menuButton}
                 color="inherit"
@@ -118,20 +102,20 @@ export default function AppHeader() {
                 <AccountCircleIcon />
               </IconButton>
               <Popper
-                open={openNext}
-                anchorEl={anchorElNext}
-                placement={placementNext}
+                open={open}
+                anchorEl={anchorEl}
+                placement={placement}
                 transition
                 disablePortal
               >
                 {({ TransitionProps }) => (
                   <Fade {...TransitionProps} timeout={150}>
                     <Paper elevation={2}>
-                      <ClickAwayListener onClickAway={handleCloseNext}>
-                        <MenuList autoFocusItem={openNext}>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList autoFocusItem={open}>
                           <MenuItem
                             type="button"
-                            onClick={handleCloseNext}
+                            onClick={handleClose}
                             component={Link}
                             to="/profile"
                           >

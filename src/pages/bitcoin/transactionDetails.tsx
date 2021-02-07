@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/display-name */
-import { Container, Grid, List, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ListItem, ListItemText, Typography, Divider, withStyles } from "@material-ui/core";
+import { Container, Grid, List, Paper, Table, TableBody, TableCell,
+     TableContainer, TableRow, ListItem, ListItemText, Typography, withStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getRawTransactionReq } from "../../api/bitcoinApi";
 import { ITransaction } from "../../interfaces/ITransaction";
 import { IInputs } from "../../interfaces/IInputs";
@@ -13,9 +14,7 @@ export default function TransactionDetails() {
     const [transactionData, setTransactionData] = useState<ITransaction>();
     const [inputs, setInputs] = useState<IInputs[]>([]);
     const [outputs, setOutputs] = useState<IOutputs[]>([]);
-    const [coinbaseTransaction, setCoinbaseTransaction] = useState<boolean>();
     const [totalOutputValue, setTotalOutputValue] = useState<number>();
-    const history = useHistory();
     const { txid } = useParams<{ txid: string }>();
 
       const StyledTableRow = withStyles((theme) => ({
@@ -63,17 +62,8 @@ export default function TransactionDetails() {
     }, [setOutputs, transactionData]);
 
     useEffect(() => {
-        async function isCoinbaseTransaction() {
-            if (inputs && inputs.length != 0 && inputs[0].coinbase) {
-                setCoinbaseTransaction(true);
-            }
-        }
-        isCoinbaseTransaction();
-    }, [setCoinbaseTransaction, inputs]);
-
-    useEffect(() => {
         async function getTotalOutputs() {
-            if (outputs && outputs.length != 0) {
+            if (outputs && outputs.length !== 0) {
                 let outputValues = 0;
                 for (let i = 0; i < outputs.length; i++) {
                     outputValues += outputs[i].value;
@@ -111,7 +101,7 @@ export default function TransactionDetails() {
                             <TableCell>{transactionData.locktime}</TableCell>
                         </StyledTableRow>
                         <StyledTableRow>
-                            <TableCell>Total Outputs</TableCell>
+                            <TableCell>Outputs total value</TableCell>
                             <TableCell>{totalOutputValue}</TableCell>
                         </StyledTableRow>
                     </TableBody></Table>) : null}
@@ -134,7 +124,7 @@ export default function TransactionDetails() {
                                     <TableCell>Sequence</TableCell>
                                     <TableCell>{input.sequence}</TableCell>
                                 </TableRow>
-                                {input.txinwitness && input.txinwitness.length != 0 ?
+                                {input.txinwitness && input.txinwitness.length !== 0 ?
                                     <TableRow>
                                         <TableCell>Transaction witnesses</TableCell>
                                         <td>
@@ -198,7 +188,7 @@ export default function TransactionDetails() {
                                     <TableCell>Type</TableCell>
                                     <TableCell>{output.scriptPubKey.type}</TableCell>
                                 </TableRow>
-                                {output.scriptPubKey.addresses && output.scriptPubKey.addresses.length != 0 ?
+                                {output.scriptPubKey.addresses && output.scriptPubKey.addresses.length !== 0 ?
                                     <TableRow>
                                         <TableCell>Addresses</TableCell>
                                         <td>

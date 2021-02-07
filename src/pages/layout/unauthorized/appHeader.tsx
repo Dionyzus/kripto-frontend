@@ -12,7 +12,6 @@ import {
   ClickAwayListener,
 } from "@material-ui/core";
 import Popper, { PopperPlacementType } from "@material-ui/core/Popper";
-import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "../style";
 import { Link, useHistory } from "react-router-dom";
 import SearchBar from "material-ui-search-bar";
@@ -87,8 +86,15 @@ export default function AppHeader() {
                 <HomeIcon />
               </IconButton>
             </Grid>
-            : null}
-            <Grid item xs={8} style={{ textAlign: "start" }}>
+            : <IconButton
+            color="inherit"
+            aria-label="home"
+            component={Link}
+            to="/"
+          >
+            <HomeIcon />
+          </IconButton>}
+            <Grid item xs={10} style={{ textAlign: "start" }}>
               <SearchBar
                 placeholder={"Search transaction or a block"}
                 value={searchedValue}
